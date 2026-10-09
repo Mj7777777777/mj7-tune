@@ -1,0 +1,29 @@
+name: Compiler le plugin
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tests:
+    name: Tests des traitements
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: g++ -std=c++20 -O2 -I Source tests/dsp_tests.cpp -o dsp_tests && ./dsp_tests
+
+  windows:
+    name: Windows (VST3)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurer
+        run: cmake -B build -A x64
+      - name: Compiler
+        run: cmake --build build --config Release --target MJ7Tune_VST3 --parallel
+      - name: Emballer
+   
