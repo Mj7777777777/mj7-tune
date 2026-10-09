@@ -26,4 +26,52 @@ jobs:
       - name: Compiler
         run: cmake --build build --config Release --target MJ7Tune_VST3 --parallel
       - name: Emballer
-   
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item -Recurse "build/MJ7Tune_artefacts/Release/VST3/MJ7 Tune.vst3" dist/
+          Copy-Item INSTALLATION.txt dist/
+          Compress-Archive -Path dist/* -DestinationPath MJ7-Tune-Windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MJ7-Tune-Windows
+          path: MJ7-Tune-Windows.zip
+
+  macos:
+    name: macOS (VST3 + AU, Apple Silicon et Intel)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurer
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64"
+      - name: Compiler
+        run: cmake --build build --config Release --target MJ7Tune_VST3 MJ7Tune_AU --parallel
+      - name: Emballer
+        run: |
+          mkdir dist
+          cp -R "build/MJ7Tune_artefacts/Release/VST3/MJ7 Tune.vst3" dist/
+          cp -R "build/MJ7Tune_artefacts/Release/AU/MJ7 Tune.component" dist/
+          cp INSTALLATION.txt dist/
+          codesign --force --deep --sign - "dist/MJ7 Tune.vst3" "dist/MJ7 Tune.component"
+          ditto -c -k dist MJ7-Tune-macOS.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MJ7-Tune-macOS
+          path: MJ7-Tune-macOS.zip
+
+  publier:
+    name: Publier les fichiers a telecharger
+    needs: [windows, macos]
+    if: always() && (needs.windows.result == 'success' || needs.macos.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: zips
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: MJ7 Tune - version ${{ github.run_number }}
+          body: Fichiers prets a installer. Voir INSTALLATION.txt dans chaque archive.
+          files: zips/*.zip
