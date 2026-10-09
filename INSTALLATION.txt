@@ -1,0 +1,37 @@
+MJ7 TUNE - INSTALLATION
+
+WINDOWS (FL Studio)
+1. Copiez le dossier "MJ7 Tune.vst3" dans :
+   C:\Program Files\Common Files\VST3
+2. Ouvrez FL Studio > Options > Manage plugins > Find installed plugins.
+3. Chargez "MJ7 Tune" en PREMIER sur la piste de mixeur de la voix (avant les autres effets).
+
+MAC (FL Studio)
+1. Copiez "MJ7 Tune.vst3" dans :
+   Macintosh HD/Bibliotheque/Audio/Plug-Ins/VST3
+   (et, si vous voulez aussi l'Audio Unit, "MJ7 Tune.component" dans .../Plug-Ins/Components)
+2. Le plugin n'est pas signe par un compte developpeur Apple. Ouvrez l'application Terminal et collez :
+   sudo xattr -cr "/Library/Audio/Plug-Ins/VST3/MJ7 Tune.vst3"
+   sudo xattr -cr "/Library/Audio/Plug-Ins/Components/MJ7 Tune.component"
+3. FL Studio > Options > Manage plugins > Find installed plugins.
+
+PREMIERE UTILISATION
+1. Choisissez le style : Naturel, Pop moderne, Afro / Amapiano, R&B souple, Trap hard-tune, Robot,
+   Voix grave pitchee, Voix aigue, Live scene.
+2. Lancez la lecture d'un passage chante (le refrain est ideal) et appuyez sur ANALYSER :
+   20 secondes d'ecoute, puis la tonalite et la gamme se reglent. Le resultat s'affiche dans le cercle.
+   Verifiez a l'oreille : si le morceau est en Sol majeur, Mi mineur donne les memes notes.
+3. Reglez VITESSE (0 ms = effet robot, 20 a 50 ms = moderne, 80 ms et plus = naturel),
+   VIBRATO (garde le vibrato du chanteur) et HUMANISER (adoucit les notes tenues).
+4. Le clavier montre les notes permises en or et la note chantee en vert. Cliquez une touche pour
+   couper une note qui attire mal la voix (la gamme passe alors en "Personnalisee").
+5. L'onglet COURBE affiche la voix chantee (gris) et corrigee (or) en direct.
+
+GAMMES : chromatique, majeure, mineure, mineure harmonique, pentatoniques, blues, dorien,
+mixolydien, phrygien et orientale (Hijaz).
+
+LATENCE
+- Mode Mix : environ 30 ms, compensee par FL Studio. La correction tombe exactement sur la note.
+- Mode Live : 5 ms, pour que l'artiste s'entende avec l'autotune pendant l'enregistrement.
+
+Pour une chaine complete : MJ7 Tune, puis MJ7 Vocal Chain avec son module Tune coupe.
